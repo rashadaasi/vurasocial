@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vura Social — Earn $VT on Every Engagement</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#f5c842;--gold-light:#ffe180;--gold-dark:#b8860b;
+  --green:#4ade80;--green-mid:#22c55e;--green-dark:#166534;--green-deep:#052e16;--green-light:#86efac;
+  --purple:#a855f7;--blue:#60a5fa;--red:#f87171;--orange:#fb923c;--cyan:#22d3ee;--pink:#f472b6;
+  --bg:#020702;--bg2:#040e04;--bg3:#071007;--bg4:#0a160a;
+  --surface:rgba(74,222,128,0.03);--surface2:rgba(74,222,128,0.07);--surface3:rgba(74,222,128,0.11);
+  --border:rgba(74,222,128,0.1);--border2:rgba(74,222,128,0.2);--border3:rgba(74,222,128,0.32);
+  --text:#dcfce7;--text2:#86efac;--text3:#4ade80;--muted:#4a6b55;--muted2:#2d4a38;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+/* ── BG ── */
+.site-bg{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(74,222,128,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,0.018) 1px,transparent 1px);background-size:50px 50px;}
+.bg-g1{position:absolute;top:-15%;left:-10%;width:60%;height:60%;background:radial-gradient(ellipse,rgba(245,200,66,0.04),transparent 65%);}
+.bg-g2{position:absolute;bottom:-10%;right:-5%;width:55%;height:55%;background:radial-gradient(ellipse,rgba(74,222,128,0.04),transparent 65%);}
+.bg-g3{position:absolute;top:35%;left:30%;width:50%;height:50%;background:radial-gradient(ellipse,rgba(168,85,247,0.025),transparent 65%);}
+.bg-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.012) 2px,rgba(0,0,0,0.012) 3px);}
+
+/* ── TICKER ── */
+.ticker{position:fixed;top:0;left:0;right:0;z-index:200;height:28px;background:rgba(5,46,22,0.5);border-bottom:1px solid rgba(74,222,128,0.1);overflow:hidden;display:flex;align-items:center;}
+.ticker-inner{display:flex;gap:48px;white-space:nowrap;animation:tick 30s linear infinite;padding:0 20px;}
+.ti{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;flex-shrink:0;}
+.ti-l{color:var(--muted);}
+.ti-v{color:var(--text);}
+.ti-u{color:var(--green);}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── LAYOUT ── */
+.app{display:grid;grid-template-columns:260px 1fr 300px;grid-template-rows:auto 1fr;min-height:100vh;position:relative;z-index:1;padding-top:28px;}
+
+/* ── TOPBAR ── */
+.topbar{grid-column:1/-1;height:58px;background:rgba(2,7,2,0.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:28px;z-index:100;}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;width:240px;}
+.tl-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green-deep),var(--green-dark));border:1px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:var(--gold);}
+.tl-text{font-family:'Orbitron',monospace;font-size:14px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tl-sub{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:2px;display:block;margin-top:-2px;}
+.topbar-search{flex:1;max-width:480px;display:flex;align-items:center;gap:10px;background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:22px;padding:8px 16px;transition:border-color 0.2s;}
+.topbar-search:focus-within{border-color:var(--border2);}
+.topbar-search input{flex:1;background:transparent;border:none;outline:none;font-family:'Syne',sans-serif;font-size:13px;color:var(--text);}
+.topbar-search input::placeholder{color:var(--muted);}
+.topbar-right{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.earn-badge{display:flex;align-items:center;gap:7px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.3);border-radius:20px;padding:6px 14px;cursor:pointer;}
+.eb-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 1.8s ease-in-out infinite;}
+.eb-val{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--gold);}
+.eb-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.notif-btn{width:36px;height:36px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;position:relative;transition:all 0.2s;}
+.notif-btn:hover{border-color:var(--border2);}
+.notif-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:var(--gold);font-family:'Orbitron',monospace;font-size:8px;font-weight:700;color:#1a0a00;display:flex;align-items:center;justify-content:center;}
+.topbar-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-dark),var(--green));border:2px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar-left{background:rgba(2,7,2,0.6);border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:86px;height:calc(100vh - 86px);overflow-y:auto;scrollbar-width:none;}
+.sidebar-left::-webkit-scrollbar{display:none;}
+.sidebar-section{margin-bottom:28px;}
+.sidebar-section-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:0 10px;margin-bottom:8px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;cursor:pointer;transition:all 0.2s;position:relative;border:1px solid transparent;}
+.nav-item:hover{background:var(--surface2);border-color:var(--border);}
+.nav-item.active{background:rgba(74,222,128,0.08);border-color:var(--border2);}
+.nav-item.active .ni-label{color:var(--green);}
+.ni-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
+.ni-label{font-size:13px;font-weight:600;color:var(--text2);}
+.ni-badge{margin-left:auto;background:var(--gold);color:#1a0a00;font-family:'Orbitron',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.ni-earn{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);}
+
+/* EARNINGS MINI CARD */
+.earn-mini-card{background:linear-gradient(135deg,rgba(7,16,7,0.9),rgba(5,46,22,0.4));border:1px solid rgba(245,200,66,0.25);border-radius:16px;padding:16px;margin-bottom:20px;}
+.emc-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;}
+.emc-balance{font-family:'Orbitron',monospace;font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.emc-sub{font-size:11px;color:var(--muted);}
+.emc-rates{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;}
+.emc-rate{background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 8px;text-align:center;}
+.emc-rate-val{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--green);display:block;}
+.emc-rate-lbl{font-size:9px;color:var(--muted);}
+.withdraw-btn{width:100%;padding:9px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b6914,#d4a017,#f5c842);color:#1a0a00;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;margin-top:10px;transition:all 0.2s;box-shadow:0 3px 12px rgba(245,200,66,0.25);}
+.withdraw-btn:hover{box-shadow:0 5px 20px rgba(245,200,66,0.4);transform:translateY(-1px);}
+
+/* ── MAIN FEED ── */
+.main-feed{padding:0 0 80px;background:transparent;}
+.feed-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:rgba(2,7,2,0.6);backdrop-filter:blur(12px);position:sticky;top:86px;z-index:50;}
+.feed-tab{flex:1;padding:14px;text-align:center;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+.feed-tab:hover{color:var(--text2);}
+.feed-tab.active{color:var(--green);border-bottom-color:var(--green);}
+
+/* CREATE POST */
+.create-post{margin:16px;background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:18px;position:relative;overflow:hidden;}
+.create-post::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(74,222,128,0.3),rgba(245,200,66,0.2),transparent);}
+.cp-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.cp-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--green-dark),var(--green));border:2px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.cp-input{flex:1;background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-family:'Syne',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;min-height:80px;transition:border-color 0.2s;width:100%;}
+.cp-input:focus{border-color:var(--border2);}
+.cp-input::placeholder{color:var(--muted);}
+.cp-bottom{display:flex;align-items:center;gap:10px;}
+.cp-action{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;font-size:12px;color:var(--muted);transition:all 0.2s;}
+.cp-action:hover{border-color:var(--border2);color:var(--text2);}
+.cp-earn-hint{margin-left:auto;display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);}
+.cp-submit{padding:9px 22px;border:none;border-radius:22px;background:linear-gradient(135deg,#052e16,#14532d,#22c55e);color:#f0fdf4;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;box-shadow:0 3px 12px rgba(34,197,94,0.25);transition:all 0.2s;}
+.cp-submit:hover{box-shadow:0 5px 20px rgba(34,197,94,0.4);transform:translateY(-1px);}
+
+/* POST CARD */
+.post-card{margin:0 16px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.25s;}
+.post-card:hover{border-color:var(--border2);}
+.post-header{padding:18px 20px 12px;display:flex;align-items:center;gap:12px;}
+.post-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative;}
+.post-avatar-ring{position:absolute;inset:-2px;border-radius:50%;border:2px solid;}
+.post-user-info{flex:1;}
+.post-username{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;}
+.post-handle{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+.post-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
+.verified-badge{width:16px;height:16px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:9px;}
+.post-earn-tag{display:flex;align-items:center;gap:4px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);}
+.post-body{padding:0 20px 14px;}
+.post-text{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:12px;}
+.post-text .hashtag{color:var(--green);cursor:pointer;}
+.post-text .mention{color:var(--gold);cursor:pointer;}
+.post-media{border-radius:14px;overflow:hidden;margin-bottom:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);min-height:200px;display:flex;align-items:center;justify-content:center;}
+.post-media-placeholder{text-align:center;padding:40px;}
+.post-media-placeholder .pm-icon{font-size:48px;display:block;margin-bottom:8px;opacity:0.4;}
+.post-media-placeholder .pm-text{font-size:11px;color:var(--muted);}
+
+/* ACTIONS BAR */
+.post-actions{padding:10px 20px 16px;display:flex;align-items:center;gap:4px;border-top:1px solid rgba(74,222,128,0.06);}
+.pa-btn{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all 0.2s;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:13px;color:var(--muted);position:relative;}
+.pa-btn:hover{background:var(--surface2);}
+.pa-btn.liked{color:var(--red);}
+.pa-btn.shared{color:var(--green);}
+.pa-btn.commented{color:var(--blue);}
+.pa-count{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;}
+.pa-earn{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.2);padding:1px 6px;border-radius:6px;margin-left:2px;}
+.pa-spacer{flex:1;}
+.pa-vt-earned{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);}
+
+/* EARN FLOAT ANIMATION */
+.earn-float{position:fixed;pointer-events:none;z-index:9999;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);animation:floatUp 1.2s ease-out forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-60px) scale(0.8);}}
+
+/* COMMENTS SECTION */
+.comments-section{background:rgba(4,14,4,0.5);border-top:1px solid var(--border);padding:14px 20px;}
+.comment-item{display:flex;gap:10px;margin-bottom:14px;}
+.comment-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:rgba(74,222,128,0.08);border:1px solid var(--border);}
+.comment-body{flex:1;}
+.comment-username{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.comment-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.comment-meta{display:flex;align-items:center;gap:12px;margin-top:5px;}
+.cm-time{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);}
+.cm-like{font-size:11px;color:var(--muted);cursor:pointer;transition:color 0.2s;}
+.cm-like:hover{color:var(--red);}
+.cm-earn{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);}
+.comment-input-row{display:flex;gap:10px;align-items:center;margin-top:10px;}
+.ci-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--green-dark),var(--green));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.ci-input{flex:1;background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:22px;padding:8px 14px;font-family:'Syne',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s;}
+.ci-input:focus{border-color:var(--border2);}
+.ci-input::placeholder{color:var(--muted);}
+.ci-send{padding:8px 16px;border:none;border-radius:22px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:var(--green);font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.ci-send:hover{background:rgba(74,222,128,0.18);}
+
+/* ── RIGHT SIDEBAR ── */
+.sidebar-right{padding:16px;background:rgba(2,7,2,0.4);border-left:1px solid var(--border);position:sticky;top:86px;height:calc(100vh - 86px);overflow-y:auto;scrollbar-width:none;}
+.sidebar-right::-webkit-scrollbar{display:none;}
+.sr-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
+.sr-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--text);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sr-title::before{content:'//';font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:10px;}
+
+/* LEADERBOARD */
+.lb-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(74,222,128,0.05);}
+.lb-item:last-child{border-bottom:none;}
+.lb-rank{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;width:20px;color:var(--muted);}
+.lb-rank.gold{color:var(--gold);}
+.lb-rank.silver{color:#94a3b8;}
+.lb-rank.bronze{color:#b45309;}
+.lb-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.lb-info{flex:1;}
+.lb-name{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.lb-earned{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);}
+.lb-badge{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.2);color:var(--gold);}
+
+/* TRENDING TOPICS */
+.trend-item{padding:8px 0;border-bottom:1px solid rgba(74,222,128,0.05);cursor:pointer;transition:all 0.2s;}
+.trend-item:last-child{border-bottom:none;}
+.trend-item:hover .ti-tag{color:var(--green-light);}
+.ti-cat{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
+.ti-tag{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--green);margin:2px 0;}
+.ti-count{font-size:11px;color:var(--muted);}
+
+/* SUGGESTED USERS */
+.su-item{display:flex;align-items:center;gap:10px;padding:8px 0;}
+.su-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.su-info{flex:1;}
+.su-name{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.su-handle{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+.su-follow{padding:5px 14px;border-radius:20px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.07);color:var(--green);font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.su-follow:hover{background:rgba(74,222,128,0.14);}
+.su-follow.following{background:rgba(74,222,128,0.14);border-color:rgba(74,222,128,0.4);}
+
+/* EARN RATES TABLE */
+.earn-rates-card{background:linear-gradient(135deg,rgba(7,16,7,0.95),rgba(5,46,22,0.3));border:1px solid rgba(245,200,66,0.2);border-radius:16px;padding:16px;margin-bottom:14px;}
+.er-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:14px;}
+.er-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.er-row:last-child{border-bottom:none;}
+.er-action{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);}
+.er-reward{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--gold);}
+
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* PROFILE PAGE */
+.profile-cover{height:200px;background:linear-gradient(135deg,rgba(5,46,22,0.8),rgba(7,16,7,0.9));border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.cover-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(74,222,128,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,0.04) 1px,transparent 1px);background-size:30px 30px;}
+.cover-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:300px;height:200px;background:radial-gradient(ellipse,rgba(245,200,66,0.08),transparent 70%);}
+.profile-info{padding:0 28px 28px;position:relative;}
+.profile-avatar-wrap{position:relative;display:inline-block;margin-top:-50px;margin-bottom:12px;}
+.profile-avatar-img{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--green-dark),var(--green));border:4px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:42px;}
+.profile-verified{position:absolute;bottom:4px;right:4px;width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid var(--bg);}
+.profile-name{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.profile-handle{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:12px;}
+.profile-bio{font-size:14px;color:var(--text2);line-height:1.7;max-width:600px;margin-bottom:16px;}
+.profile-stats{display:flex;gap:28px;margin-bottom:18px;}
+.ps-item{text-align:center;}
+.ps-val{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--text);display:block;}
+.ps-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.profile-earn-card{background:linear-gradient(135deg,rgba(7,16,7,0.9),rgba(5,46,22,0.4));border:1px solid rgba(245,200,66,0.25);border-radius:16px;padding:20px;max-width:500px;margin-bottom:20px;}
+.pec-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;}
+.pec-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.pec-stat{}
+.pec-stat-val{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--gold);display:block;}
+.pec-stat-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;}
+
+/* NOTIFICATIONS */
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid rgba(74,222,128,0.06);}
+.notif-item.unread{background:rgba(74,222,128,0.02);border-radius:10px;padding:14px 10px;}
+.notif-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid var(--border);}
+.notif-body{flex:1;}
+.notif-text{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:4px;}
+.notif-text strong{color:var(--text);}
+.notif-earn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);}
+.notif-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* WALLET PAGE */
+.wallet-hero{background:linear-gradient(135deg,rgba(7,16,7,0.95),rgba(5,46,22,0.5));border:1px solid rgba(245,200,66,0.25);border-radius:22px;padding:32px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden;}
+.wh-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:200px;background:radial-gradient(ellipse,rgba(245,200,66,0.07),transparent 70%);}
+.wh-balance-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:8px;}
+.wh-balance{font-family:'Orbitron',monospace;font-size:52px;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.wh-usd{font-size:15px;color:var(--muted);margin-top:4px;}
+.wh-btns{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+.wh-btn{padding:11px 24px;border-radius:22px;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;}
+.wh-btn-gold{background:linear-gradient(135deg,#8b6914,#d4a017,#f5c842);color:#1a0a00;border:none;box-shadow:0 3px 14px rgba(245,200,66,0.3);}
+.wh-btn-outline{background:transparent;border:1px solid var(--border2);color:var(--green);}
+.earn-history-table{width:100%;border-collapse:collapse;}
+.eht th{text-align:left;padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;border-bottom:1px solid var(--border);}
+.eht td{padding:13px 16px;border-bottom:1px solid rgba(74,222,128,0.04);font-size:13px;color:var(--text2);}
+.eht tr:last-child td{border-bottom:none;}
+.eht .mono{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(16px);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.28s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{width:100%;max-width:480px;background:#071007;border:1px solid var(--border2);border-radius:22px;overflow:hidden;transform:scale(0.95);transition:transform 0.28s;}
+.overlay.open .modal{transform:scale(1);}
+.modal-hdr{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;letter-spacing:2px;color:var(--green);}
+.modal-close{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);}
+.modal-close:hover{border-color:var(--green);color:var(--green);}
+.modal-body{padding:20px 22px 24px;}
+.mfield{margin-bottom:14px;}
+.mfield label{display:block;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.mfield input{width:100%;background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Syne',sans-serif;font-size:14px;color:var(--text);outline:none;}
+.mfield input:focus{border-color:var(--green);}
+.mbtn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;margin-top:6px;background:linear-gradient(135deg,#8b6914,#d4a017,#f5c842);color:#1a0a00;box-shadow:0 4px 16px rgba(245,200,66,0.3);transition:all 0.2s;}
+.mbtn:hover{box-shadow:0 6px 24px rgba(245,200,66,0.5);transform:translateY(-1px);}
+
+/* TOAST */
+.toast{position:fixed;top:110px;left:50%;transform:translateX(-50%) translateY(-10px);background:rgba(2,7,2,0.97);border:1px solid var(--green);border-radius:30px;padding:10px 24px;font-family:'Orbitron',monospace;font-size:11px;letter-spacing:2px;color:var(--green);opacity:0;transition:all 0.3s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 0 22px rgba(74,222,128,0.2);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.gold{border-color:var(--gold);color:var(--gold);box-shadow:0 0 22px rgba(245,200,66,0.25);}
+
+/* PILL */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;}
+.pill.green{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:var(--green);}
+.pill.gold{background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.2);color:var(--gold);}
+
+@media(max-width:1100px){.app{grid-template-columns:220px 1fr 260px;}}
+@media(max-width:900px){.app{grid-template-columns:60px 1fr;}.sidebar-right{display:none;}.ni-label,.ni-earn,.ni-badge{display:none;}.nav-item{justify-content:center;}.sidebar-left{padding:12px 8px;}.earn-mini-card{display:none;}.sidebar-section-title{display:none;}}
+@media(max-width:600px){.app{grid-template-columns:1fr;}.sidebar-left{display:none;}.topbar-search{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="site-bg">
+  <div class="bg-grid"></div><div class="bg-g1"></div><div class="bg-g2"></div><div class="bg-g3"></div><div class="bg-scan"></div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ti"><span class="ti-l">$VT</span><span class="ti-v">$0.0100</span><span class="ti-u">▲+4.38%</span></div>
+    <div class="ti"><span class="ti-l">LIKE REWARD</span><span class="ti-v">0.5 VT</span></div>
+    <div class="ti"><span class="ti-l">COMMENT REWARD</span><span class="ti-v">2 VT</span></div>
+    <div class="ti"><span class="ti-l">SHARE REWARD</span><span class="ti-v">1 VT</span></div>
+    <div class="ti"><span class="ti-l">POST REWARD</span><span class="ti-v">5 VT</span></div>
+    <div class="ti"><span class="ti-l">DAILY ACTIVE USERS</span><span class="ti-v">14,280</span><span class="ti-u">↑</span></div>
+    <div class="ti"><span class="ti-l">TOTAL EARNED TODAY</span><span class="ti-v">284K VT</span></div>
+    <div class="ti"><span class="ti-l">NETWORK</span><span class="ti-v">BNB Chain</span></div>
+    <div class="ti"><span class="ti-l">$VT</span><span class="ti-v">$0.0100</span><span class="ti-u">▲+4.38%</span></div>
+    <div class="ti"><span class="ti-l">LIKE REWARD</span><span class="ti-v">0.5 VT</span></div>
+    <div class="ti"><span class="ti-l">COMMENT REWARD</span><span class="ti-v">2 VT</span></div>
+    <div class="ti"><span class="ti-l">SHARE REWARD</span><span class="ti-v">1 VT</span></div>
+    <div class="ti"><span class="ti-l">POST REWARD</span><span class="ti-v">5 VT</span></div>
+    <div class="ti"><span class="ti-l">DAILY ACTIVE USERS</span><span class="ti-v">14,280</span><span class="ti-u">↑</span></div>
+    <div class="ti"><span class="ti-l">TOTAL EARNED TODAY</span><span class="ti-v">284K VT</span></div>
+    <div class="ti"><span class="ti-l">NETWORK</span><span class="ti-v">BNB Chain</span></div>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="tl-mark">V</div>
+      <div>
+        <span class="tl-text">VURA SOCIAL</span>
+        <span class="tl-sub">// EARN $VT · ENGAGE · GROW</span>
+      </div>
+    </div>
+    <div class="topbar-search">
+      <span style="color:var(--muted);">🔍</span>
+      <input type="text" placeholder="Search people, posts, #tags...">
+    </div>
+    <div class="topbar-right">
+      <div class="earn-badge" onclick="showPage('wallet')">
+        <span class="eb-dot"></span>
+        <div>
+          <div class="eb-val" id="topbar-balance">2,847 VT</div>
+          <div class="eb-label">EARNED</div>
+        </div>
+      </div>
+      <div class="notif-btn" onclick="showPage('notifications')">
+        🔔
+        <div class="notif-badge" id="notif-count">4</div>
+      </div>
+      <div class="topbar-avatar" onclick="showPage('profile')">🧑</div>
+    </div>
+  </div>
+
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar-left">
+    <div class="earn-mini-card">
+      <div class="emc-title">// MY EARNINGS</div>
+      <div class="emc-balance" id="sidebar-balance">2,847 VT</div>
+      <div class="emc-sub">≈ $28.47 USDT · This month</div>
+      <div class="emc-rates">
+        <div class="emc-rate"><span class="emc-rate-val">+0.5</span><span class="emc-rate-lbl">Per Like</span></div>
+        <div class="emc-rate"><span class="emc-rate-val">+2</span><span class="emc-rate-lbl">Per Comment</span></div>
+        <div class="emc-rate"><span class="emc-rate-val">+1</span><span class="emc-rate-lbl">Per Share</span></div>
+        <div class="emc-rate"><span class="emc-rate-val">+5</span><span class="emc-rate-lbl">Per Post</span></div>
+      </div>
+      <button class="withdraw-btn" onclick="openWithdraw()">💸 WITHDRAW VT</button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">// Navigate</div>
+      <div class="nav-item active" onclick="showPage('feed');setNavActive(this)">
+        <span class="ni-icon">🏠</span>
+        <span class="ni-label">Home Feed</span>
+      </div>
+      <div class="nav-item" onclick="showPage('explore');setNavActive(this)">
+        <span class="ni-icon">🔭</span>
+        <span class="ni-label">Explore</span>
+      </div>
+      <div class="nav-item" onclick="showPage('notifications');setNavActive(this)">
+        <span class="ni-icon">🔔</span>
+        <span class="ni-label">Notifications</span>
+        <span class="ni-badge" id="nav-notif-badge">4</span>
+      </div>
+      <div class="nav-item" onclick="showPage('messages');setNavActive(this)">
+        <span class="ni-icon">💬</span>
+        <span class="ni-label">Messages</span>
+        <span class="ni-badge">2</span>
+      </div>
+      <div class="nav-item" onclick="showPage('profile');setNavActive(this)">
+        <span class="ni-icon">🧑</span>
+        <span class="ni-label">My Profile</span>
+      </div>
+      <div class="nav-item" onclick="showPage('wallet');setNavActive(this)">
+        <span class="ni-icon">💰</span>
+        <span class="ni-label">Earn & Wallet</span>
+        <span class="ni-earn">+VT</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">// Vura Ecosystem</div>
+      <div class="nav-item" onclick="window.open('https://vuramarketplace.vercel.app/','_blank')">
+        <span class="ni-icon">🛒</span><span class="ni-label">Marketplace</span>
+      </div>
+      <div class="nav-item" onclick="window.open('https://vurainvestments.vercel.app/','_blank')">
+        <span class="ni-icon">📈</span><span class="ni-label">Investments</span>
+      </div>
+      <div class="nav-item" onclick="window.open('https://vuranft.vercel.app/','_blank')">
+        <span class="ni-icon">🖼️</span><span class="ni-label">NFT</span>
+      </div>
+      <div class="nav-item" onclick="window.open('https://vura-token.vercel.app/','_blank')">
+        <span class="ni-icon">🪙</span><span class="ni-label">$VT Token</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ FEED PAGE ════════ -->
+  <div id="feed" class="page active main-feed">
+    <div class="feed-tabs">
+      <div class="feed-tab active" onclick="setFeedTab(this,'for-you')">⚡ For You</div>
+      <div class="feed-tab" onclick="setFeedTab(this,'following')">👥 Following</div>
+      <div class="feed-tab" onclick="setFeedTab(this,'trending')">🔥 Trending</div>
+      <div class="feed-tab" onclick="setFeedTab(this,'vura')">🟢 Vura</div>
+    </div>
+
+    <!-- CREATE POST -->
+    <div class="create-post">
+      <div class="cp-top">
+        <div class="cp-avatar">🧑</div>
+        <textarea class="cp-input" id="new-post-text" placeholder="What's on your mind? Share to earn $VT..."></textarea>
+      </div>
+      <div class="cp-bottom">
+        <div class="cp-action">📷 Photo</div>
+        <div class="cp-action">🎬 Video</div>
+        <div class="cp-action"># Tag</div>
+        <div class="cp-action">😊 Emoji</div>
+        <div class="cp-earn-hint">✦ Earn 5 VT per post</div>
+        <button class="cp-submit" onclick="createPost()">POST & EARN</button>
+      </div>
+    </div>
+
+    <!-- POSTS -->
+    <div id="posts-container"></div>
+  </div>
+
+  <!-- ════════ EXPLORE PAGE ════════ -->
+  <div id="explore" class="page main-feed" style="padding:20px;">
+    <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">🔭 Explore</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;">Discover trending content across the Vura ecosystem</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="explore-grid"></div>
+  </div>
+
+  <!-- ════════ NOTIFICATIONS PAGE ════════ -->
+  <div id="notifications" class="page main-feed" style="padding:20px;">
+    <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">🔔 Notifications</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;">Your activity & earnings updates</p>
+    <div id="notifs-list"></div>
+  </div>
+
+  <!-- ════════ MESSAGES PAGE ════════ -->
+  <div id="messages" class="page main-feed" style="padding:20px;">
+    <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">💬 Messages</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;">Direct messages — coming to full release</p>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:12px;">📨</div>
+      <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;">DM Feature Coming Soon</div>
+      <div style="font-size:13px;color:var(--muted);">Private encrypted messaging with $VT tip support</div>
+    </div>
+  </div>
+
+  <!-- ════════ PROFILE PAGE ════════ -->
+  <div id="profile" class="page main-feed">
+    <div class="profile-cover">
+      <div class="cover-pattern"></div>
+      <div class="cover-glow"></div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar-img">🧑</div>
+        <div class="profile-verified">✓</div>
+      </div>
+      <div class="profile-name">
+        CryptoVura
+        <span class="pill gold">⭑ VERIFIED</span>
+        <span class="pill green">● CREATOR</span>
+      </div>
+      <div class="profile-handle">@cryptovura · Joined May 2026</div>
+      <div class="profile-bio">Web3 enthusiast & $VT holder 🟢 | Building on the Vura ecosystem | Earning crypto by just being social 🚀</div>
+      <div class="profile-stats">
+        <div class="ps-item"><span class="ps-val" id="prof-posts">0</span><span class="ps-lbl">Posts</span></div>
+        <div class="ps-item"><span class="ps-val">1,240</span><span class="ps-lbl">Followers</span></div>
+        <div class="ps-item"><span class="ps-val">380</span><span class="ps-lbl">Following</span></div>
+        <div class="ps-item"><span class="ps-val" id="prof-earned">2,847</span><span class="ps-lbl" style="color:var(--gold);">VT Earned</span></div>
+      </div>
+      <div class="profile-earn-card">
+        <div class="pec-title">// LIFETIME ENGAGEMENT EARNINGS</div>
+        <div class="pec-stats">
+          <div class="pec-stat"><span class="pec-stat-val" id="pec-likes">0</span><span class="pec-stat-lbl">Likes Given</span></div>
+          <div class="pec-stat"><span class="pec-stat-val" id="pec-comments">0</span><span class="pec-stat-lbl">Comments</span></div>
+          <div class="pec-stat"><span class="pec-stat-val" id="pec-shares">0</span><span class="pec-stat-lbl">Shares</span></div>
+          <div class="pec-stat"><span class="pec-stat-val" id="pec-posts-count">0</span><span class="pec-stat-lbl">Posts</span></div>
+        </div>
+      </div>
+      <div id="profile-posts-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:700px;"></div>
+    </div>
+  </div>
+
+  <!-- ════════ WALLET PAGE ════════ -->
+  <div id="wallet" class="page main-feed" style="padding:20px;">
+    <div class="wallet-hero">
+      <div class="wh-glow"></div>
+      <div style="position:relative;">
+        <div class="wh-balance-label">// TOTAL $VT EARNED</div>
+        <div class="wh-balance" id="wallet-balance">2,847</div>
+        <div class="wh-usd" id="wallet-usd">≈ $28.47 USDT · @$0.01 per VT</div>
+        <div class="wh-btns">
+          <button class="wh-btn wh-btn-gold" onclick="openWithdraw()">💸 WITHDRAW</button>
+          <button class="wh-btn wh-btn-outline" onclick="showToast('Wallet connected to BNB Chain','')">🔗 CONNECT WALLET</button>
+          <button class="wh-btn wh-btn-outline" onclick="showToast('Share link copied!','gold')">📤 SHARE & EARN</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="earn-rates-card" style="max-width:600px;">
+      <div class="er-title">⚡ EARN RATES — EVERY ENGAGEMENT PAYS</div>
+      <div class="er-row"><span class="er-action">❤️ Like a post</span><span class="er-reward">+0.5 VT</span></div>
+      <div class="er-row"><span class="er-action">💬 Comment on a post</span><span class="er-reward">+2 VT</span></div>
+      <div class="er-row"><span class="er-action">🔁 Share / Repost</span><span class="er-reward">+1 VT</span></div>
+      <div class="er-row"><span class="er-action">✍️ Publish a post</span><span class="er-reward">+5 VT</span></div>
+      <div class="er-row"><span class="er-action">👥 Refer a new user</span><span class="er-reward">+50 VT</span></div>
+      <div class="er-row"><span class="er-action">📅 Daily login streak</span><span class="er-reward">+3 VT/day</span></div>
+      <div class="er-row"><span class="er-action">🔥 Post goes viral (100+ likes)</span><span class="er-reward">+100 VT</span></div>
+      <div class="er-row" style="border:none;"><span class="er-action">🏆 Top Earner of the Week</span><span class="er-reward">+500 VT</span></div>
+    </div>
+
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;max-width:700px;">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text);">Earnings History</div>
+        <span class="pill green">● Live</span>
+      </div>
+      <table class="earn-history-table eht">
+        <thead><tr><th>Action</th><th>Amount</th><th>Post</th><th>Time</th></tr></thead>
+        <tbody id="earnings-history-table">
+          <tr><td>❤️ Like given</td><td class="mono gold">+0.5 VT</td><td>Vura Token Launch</td><td>2 min ago</td></tr>
+          <tr><td>💬 Comment</td><td class="mono gold">+2 VT</td><td>PSL Final Tickets</td><td>14 min ago</td></tr>
+          <tr><td>🔁 Share</td><td class="mono gold">+1 VT</td><td>Vura Mining Update</td><td>32 min ago</td></tr>
+          <tr><td>✍️ Post published</td><td class="mono gold">+5 VT</td><td>My Post</td><td>1 hr ago</td></tr>
+          <tr><td>❤️ Like given</td><td class="mono gold">+0.5 VT</td><td>Vura NFT Drop</td><td>2 hr ago</td></tr>
+          <tr><td>📅 Daily login</td><td class="mono gold">+3 VT</td><td>Streak Day 7</td><td>Today</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar-right">
+
+    <div class="earn-rates-card">
+      <div class="er-title">⚡ EARN RATES</div>
+      <div class="er-row"><span class="er-action">❤️ Like</span><span class="er-reward">+0.5 VT</span></div>
+      <div class="er-row"><span class="er-action">💬 Comment</span><span class="er-reward">+2 VT</span></div>
+      <div class="er-row"><span class="er-action">🔁 Share</span><span class="er-reward">+1 VT</span></div>
+      <div class="er-row"><span class="er-action">✍️ Post</span><span class="er-reward">+5 VT</span></div>
+      <div class="er-row" style="border:none;"><span class="er-action">👥 Refer</span><span class="er-reward">+50 VT</span></div>
+    </div>
+
+    <div class="sr-card">
+      <div class="sr-title">Top Earners Today</div>
+      <div id="leaderboard-list"></div>
+    </div>
+
+    <div class="sr-card">
+      <div class="sr-title">Trending Topics</div>
+      <div class="trend-item"><div class="ti-cat">Web3 · Trending</div><div class="ti-tag">#VuraToken</div><div class="ti-count">4,820 posts</div></div>
+      <div class="trend-item"><div class="ti-cat">Cricket · Trending</div><div class="ti-tag">#PSL2026</div><div class="ti-count">3,240 posts</div></div>
+      <div class="trend-item"><div class="ti-cat">Gaming · Trending</div><div class="ti-tag">#VuraPlay</div><div class="ti-count">2,100 posts</div></div>
+      <div class="trend-item"><div class="ti-cat">DeFi · Trending</div><div class="ti-tag">#VuraMining</div><div class="ti-count">1,840 posts</div></div>
+      <div class="trend-item"><div class="ti-cat">NFT · Trending</div><div class="ti-tag">#VuraNFT</div><div class="ti-count">980 posts</div></div>
+    </div>
+
+    <div class="sr-card">
+      <div class="sr-title">Who to Follow</div>
+      <div id="suggested-users"></div>
+    </div>
+
+  </div>
+
+</div><!-- /app -->
+
+<!-- WITHDRAW MODAL -->
+<div class="overlay" id="withdraw-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">💸 WITHDRAW $VT</div>
+      <div class="modal-close" onclick="closeModal('withdraw-modal')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div style="background:rgba(74,222,128,0.04);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;color:var(--muted);">Available Balance</span><span style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--gold);" id="wd-avail">2,847 VT</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);">≈ USDT Value</span><span style="font-family:'Orbitron',monospace;font-size:12px;color:var(--text);" id="wd-usd">≈ $28.47</span></div>
+      </div>
+      <div class="mfield"><label>BNB Chain Wallet Address</label><input type="text" id="wd-address" placeholder="0x..."></div>
+      <div class="mfield"><label>Amount (VT)</label><input type="number" id="wd-amount" placeholder="Min: 100 VT" oninput="calcWd()"></div>
+      <div style="margin-bottom:14px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+        <span>Network fee: ~2 VT</span>
+        <span id="wd-receive" style="color:var(--green);font-family:'Orbitron',monospace;font-size:12px;">You receive: 0 VT</span>
+      </div>
+      <button class="mbtn" onclick="confirmWithdraw()">🚀 CONFIRM WITHDRAWAL</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────
+let vtBalance = 2847;
+let stats = {likes:0, comments:0, shares:0, posts:0};
+let notifCount = 4;
+
+const EARN = {like:0.5, comment:2, share:1, post:5};
+
+// ─────────────────────────────────────
+//  SEED DATA
+// ─────────────────────────────────────
+const USERS = [
+  {name:'VuraWhale',handle:'@vurawhale',avatar:'🐋',color:'linear-gradient(135deg,#1a3a5c,#2563eb)',ring:'rgba(96,165,250,0.5)',earned:'8,420 VT',verified:true},
+  {name:'CryptoKing',handle:'@cryptoking',avatar:'👑',color:'linear-gradient(135deg,#3a1a00,#f97316)',ring:'rgba(251,146,60,0.5)',earned:'6,840 VT',verified:true},
+  {name:'BlockBoss',handle:'@blockboss',avatar:'⚡',color:'linear-gradient(135deg,#052e16,#22c55e)',ring:'rgba(74,222,128,0.5)',earned:'5,200 VT',verified:false},
+  {name:'NFTQueen',handle:'@nftqueen',avatar:'💎',color:'linear-gradient(135deg,#4a0a20,#ec4899)',ring:'rgba(244,114,182,0.5)',earned:'4,100 VT',verified:true},
+  {name:'VuraBuilder',handle:'@vurabuilder',avatar:'🔨',color:'linear-gradient(135deg,#1a1a3a,#7c3aed)',ring:'rgba(168,85,247,0.5)',earned:'3,620 VT',verified:false},
+  {name:'DeFiDave',handle:'@defidave',avatar:'🏦',color:'linear-gradient(135deg,#083344,#06b6d4)',ring:'rgba(34,211,238,0.5)',earned:'3,080 VT',verified:false},
+];
+
+const SEED_POSTS = [
+  {id:1,user:USERS[0],text:`Just minted my first NFT on <span class="hashtag">#VuraNFT</span> and listed it for 500 VT 🔥 The ecosystem is growing insanely fast. Who's already on <span class="mention">@VuraSocial</span>? <span class="hashtag">#Web3</span> <span class="hashtag">#VuraToken</span>`,time:'5m',likes:142,comments:[{user:USERS[2],text:'Congrats! Just followed you on Vura NFT. The platform is 🔥',time:'3m'},{user:USERS[3],text:'Mind sharing the NFT link? 💎',time:'1m'}],shares:38,earned:284,showComments:false},
+  {id:2,user:USERS[1],text:`PSL Final tickets just dropped on <span class="hashtag">#VuraTicket</span> ✈️🏏 Grab yours before they sell out — 200 VT each. Plus you earn VT just buying them! This is the future of ticketing. <span class="hashtag">#PSL2026</span> <span class="hashtag">#VuraEcosystem</span>`,time:'18m',likes:89,comments:[{user:USERS[4],text:'Already got mine! VT ticketing is a game changer',time:'12m'}],shares:24,earned:178,showComments:false},
+  {id:3,user:USERS[2],text:`My <span class="hashtag">#VuraMining</span> stats this week 📊\n\n⛏️ 12,400 VT mined\n💰 Still holding strong\n📈 Pool difficulty up 8%\n\nWho else is mining? Drop your stats below 👇 <span class="hashtag">#Crypto</span> <span class="hashtag">#PassiveIncome</span>`,time:'42m',likes:213,comments:[{user:USERS[0],text:'I mined 9,200 VT this week. Network is getting stronger!',time:'38m'},{user:USERS[5],text:'Just started mining — 840 VT in 3 days. Not bad for a beginner 🎉',time:'20m'},{user:USERS[1],text:'The pool rewards are still solid. Diamond hands 💎',time:'10m'}],shares:67,earned:426,showComments:false},
+  {id:4,user:USERS[3],text:`Did you know Vura Social pays you <span class="hashtag">#VT</span> for every like, comment and share? 😱\n\n💜 Like = 0.5 VT\n💬 Comment = 2 VT\n🔁 Share = 1 VT\n✍️ Post = 5 VT\n\nI earned 840 VT just scrolling today 🤯 <span class="mention">@VuraSocial</span> is wild! <span class="hashtag">#Earn</span> <span class="hashtag">#Web3Social</span>`,time:'1h',likes:508,comments:[{user:USERS[1],text:'This changed how I use social media. Every scroll is money 🤑',time:'55m'},{user:USERS[2],text:'Tell everyone! The more people join the more VT we all earn',time:'48m'}],shares:198,earned:1016,showComments:false},
+  {id:5,user:USERS[4],text:`Vura Investments just crossed 48M VT staked 🚀 That's an insane milestone for a protocol less than 6 months old.\n\nMy portfolio:\n📊 Gold Plan: 5,000 VT @ 95% APR\n📊 VIP Elite: 20,000 VT @ 100% APR\n\nMaturity in 12 days 🎯 <span class="hashtag">#DeFi</span> <span class="hashtag">#VuraInvestments</span>`,time:'2h',likes:176,comments:[{user:USERS[0],text:'100% APR is not normal 😅 bullish on VT',time:'1h'}],shares:42,earned:352,showComments:false},
+];
+
+// ─────────────────────────────────────
+//  RENDER POSTS
+// ─────────────────────────────────────
+function renderPosts(postsArr, containerId='posts-container'){
+  const c = document.getElementById(containerId);
+  if(!c) return;
+  c.innerHTML = postsArr.map(post => postHTML(post)).join('');
+}
+
+function postHTML(p){
+  const commentsHTML = p.showComments ? `
+    <div class="comments-section">
+      ${p.comments.map(c=>`
+        <div class="comment-item">
+          <div class="comment-avatar" style="background:${c.user.color};">${c.user.avatar}</div>
+          <div class="comment-body">
+            <div class="comment-username">${c.user.name}</div>
+            <div class="comment-text">${c.text}</div>
+            <div class="comment-meta">
+              <span class="cm-time">${c.time}</span>
+              <span class="cm-like" onclick="likeComment(this)">❤️ Like</span>
+              <span class="cm-earn">+0.5 VT earned</span>
+            </div>
+          </div>
+        </div>`).join('')}
+      <div class="comment-input-row">
+        <div class="ci-avatar">🧑</div>
+        <input class="ci-input" id="ci-${p.id}" type="text" placeholder="Write a comment and earn 2 VT...">
+        <button class="ci-send" onclick="submitComment(${p.id})">SEND +2VT</button>
+      </div>
+    </div>` : '';
+
+  return `<div class="post-card" id="post-${p.id}">
+    <div class="post-header">
+      <div class="post-avatar" style="background:${p.user.color};">
+        ${p.user.avatar}
+        <div class="post-avatar-ring" style="border-color:${p.user.ring};"></div>
+      </div>
+      <div class="post-user-info">
+        <div class="post-username">
+          ${p.user.name}
+          ${p.user.verified?'<div class="verified-badge">✓</div>':''}
+        </div>
+        <div class="post-handle">${p.user.handle}</div>
+      </div>
+      <span class="post-time">${p.time}</span>
+      <div class="post-earn-tag">+${p.earned} VT earned</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">${p.text.replace(/\n/g,'<br>')}</div>
+    </div>
+    <div class="post-actions">
+      <button class="pa-btn ${p.liked?'liked':''}" onclick="likePost(${p.id},event)" id="like-btn-${p.id}">
+        ${p.liked?'❤️':'🤍'}
+        <span class="pa-count" id="like-count-${p.id}">${p.likes}</span>
+        <span class="pa-earn">+0.5 VT</span>
+      </button>
+      <button class="pa-btn ${p.showComments?'commented':''}" onclick="toggleComments(${p.id})">
+        💬
+        <span class="pa-count" id="comment-count-${p.id}">${p.comments.length}</span>
+        <span class="pa-earn">+2 VT</span>
+      </button>
+      <button class="pa-btn ${p.shared?'shared':''}" onclick="sharePost(${p.id},event)" id="share-btn-${p.id}">
+        🔁
+        <span class="pa-count" id="share-count-${p.id}">${p.shares}</span>
+        <span class="pa-earn">+1 VT</span>
+      </button>
+      <span class="pa-spacer"></span>
+      <div class="pa-vt-earned">🟡 ${p.earned} VT</div>
+    </div>
+    ${commentsHTML}
+  </div>`;
+}
+
+// ─────────────────────────────────────
+//  INTERACTIONS
+// ─────────────────────────────────────
+function likePost(id, e){
+  const post = SEED_POSTS.find(p=>p.id===id);
+  if(!post) return;
+  if(post.liked){ post.liked=false; post.likes--; }
+  else {
+    post.liked=true; post.likes++;
+    earn(EARN.like, e.clientX, e.clientY);
+    stats.likes++;
+    addEarnHistory('❤️ Like given', EARN.like, post.text.substring(0,30)+'...');
+    addNotification(`You liked <strong>${post.user.name}</strong>'s post`, EARN.like, '❤️');
+  }
+  document.getElementById(`like-btn-${id}`).className = `pa-btn ${post.liked?'liked':''}`;
+  document.getElementById(`like-btn-${id}`).innerHTML = `${post.liked?'❤️':'🤍'} <span class="pa-count">${post.likes}</span><span class="pa-earn">+0.5 VT</span>`;
+  updateStats();
+}
+
+function sharePost(id, e){
+  const post = SEED_POSTS.find(p=>p.id===id);
+  if(!post) return;
+  if(post.shared){ showToast('Already shared!',''); return; }
+  post.shared=true; post.shares++;
+  earn(EARN.share, e.clientX, e.clientY);
+  stats.shares++;
+  addEarnHistory('🔁 Share', EARN.share, post.text.substring(0,30)+'...');
+  addNotification(`You shared <strong>${post.user.name}</strong>'s post`, EARN.share, '🔁');
+  document.getElementById(`share-btn-${id}`).className='pa-btn shared';
+  document.getElementById(`share-count-${id}`).textContent = post.shares;
+  updateStats();
+}
+
+function toggleComments(id){
+  const post = SEED_POSTS.find(p=>p.id===id);
+  if(!post) return;
+  post.showComments = !post.showComments;
+  document.getElementById(`post-${id}`).outerHTML = postHTML(post);
+}
+
+function submitComment(id){
+  const post = SEED_POSTS.find(p=>p.id===id);
+  const input = document.getElementById(`ci-${id}`);
+  if(!input||!post) return;
+  const text = input.value.trim();
+  if(!text){ showToast('Write something first','red'); return; }
+
+  post.comments.push({user:{name:'CryptoVura',handle:'@cryptovura',avatar:'🧑',color:'linear-gradient(135deg,#052e16,#22c55e)'},text,time:'Just now'});
+  post.showComments = true;
+
+  const e = {clientX: window.innerWidth/2, clientY: window.innerHeight/2};
+  earn(EARN.comment, e.clientX, e.clientY);
+  stats.comments++;
+  addEarnHistory('💬 Comment', EARN.comment, text.substring(0,30));
+  addNotification(`You commented on <strong>${post.user.name}</strong>'s post`, EARN.comment, '💬');
+
+  document.getElementById(`comment-count-${id}`).textContent = post.comments.length;
+  document.getElementById(`post-${id}`).outerHTML = postHTML(post);
+  updateStats();
+}
+
+function likeComment(el){
+  el.style.color='var(--red)';
+  const cx = el.getBoundingClientRect().left;
+  const cy = el.getBoundingClientRect().top;
+  earn(0.5, cx, cy);
+  showToast('+0.5 VT · Comment liked!','gold');
+}
+
+function createPost(){
+  const text = document.getElementById('new-post-text').value.trim();
+  if(!text){ showToast('Write something first!','red'); return; }
+
+  const newPost = {
+    id: Date.now(),
+    user:{name:'CryptoVura',handle:'@cryptovura',avatar:'🧑',color:'linear-gradient(135deg,#052e16,#22c55e)',ring:'rgba(74,222,128,0.5)',earned:'0 VT',verified:true},
+    text: text.replace(/(#\w+)/g,'<span class="hashtag">$1</span>').replace(/(@\w+)/g,'<span class="mention">$1</span>'),
+    time:'Just now', likes:0, comments:[], shares:0, earned:5, showComments:false
+  };
+  SEED_POSTS.unshift(newPost);
+  document.getElementById('new-post-text').value='';
+
+  earn(EARN.post, window.innerWidth/2, 300);
+  stats.posts++;
+  addEarnHistory('✍️ Post published', EARN.post, text.substring(0,30));
+  addNotification('You published a new post!', EARN.post, '✍️');
+  renderPosts(SEED_POSTS);
+  updateStats();
+  showToast('+5 VT · Post published!','gold');
+}
+
+// ─────────────────────────────────────
+//  EARN ANIMATION
+// ─────────────────────────────────────
+function earn(amount, x, y){
+  vtBalance += amount;
+  updateBalanceDisplays();
+
+  // floating +VT label
+  const el = document.createElement('div');
+  el.className = 'earn-float';
+  el.textContent = `+${amount} VT`;
+  el.style.left = (x-20)+'px';
+  el.style.top = (y-20)+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1300);
+}
+
+function updateBalanceDisplays(){
+  const fmt = Math.round(vtBalance).toLocaleString();
+  ['topbar-balance','sidebar-balance','wallet-balance','prof-earned'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent = fmt+(id==='wallet-balance'?'':' VT');
+  });
+  const usdEl = document.getElementById('wallet-usd');
+  if(usdEl) usdEl.textContent = `≈ $${(vtBalance*0.01).toFixed(2)} USDT · @$0.01 per VT`;
+  const wdEl = document.getElementById('wd-avail');
+  if(wdEl) wdEl.textContent = Math.round(vtBalance).toLocaleString()+' VT';
+}
+
+function updateStats(){
+  const ids={likes:'pec-likes',comments:'pec-comments',shares:'pec-shares',posts:'pec-posts-count'};
+  Object.entries(ids).forEach(([k,id])=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=stats[k];
+  });
+  const pp=document.getElementById('prof-posts');
+  if(pp) pp.textContent=stats.posts+SEED_POSTS.filter(p=>p.user.name==='CryptoVura').length-5;
+}
+
+// ─────────────────────────────────────
+//  EARN HISTORY
+// ─────────────────────────────────────
+function addEarnHistory(action, amount, post){
+  const tbody = document.getElementById('earnings-history-table');
+  if(!tbody) return;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${action}</td><td class="mono gold">+${amount} VT</td><td>${post}</td><td>Just now</td>`;
+  tbody.insertBefore(tr, tbody.firstChild);
+}
+
+// ─────────────────────────────────────
+//  NOTIFICATIONS
+// ─────────────────────────────────────
+const notifications = [
+  {icon:'💬',text:'<strong>VuraWhale</strong> commented on your post: "Great content, keep it up!"',earn:'+2 VT',time:'5 min ago',unread:true},
+  {icon:'❤️',text:'<strong>CryptoKing</strong> and <strong>42 others</strong> liked your post',earn:'+21 VT',time:'18 min ago',unread:true},
+  {icon:'🔁',text:'<strong>NFTQueen</strong> shared your post to 1,240 followers',earn:'+1 VT',time:'34 min ago',unread:true},
+  {icon:'👥',text:'<strong>BlockBoss</strong> started following you',earn:'+5 VT referral',time:'1 hr ago',unread:true},
+  {icon:'🏆',text:'You reached Top 10 Earners this week!',earn:'+100 VT bonus',time:'2 hr ago',unread:false},
+  {icon:'💰',text:'Daily login streak — Day 7!',earn:'+3 VT',time:'Today',unread:false},
+];
+
+function addNotification(text, amount, icon){
+  notifications.unshift({icon, text, earn:`+${amount} VT`, time:'Just now', unread:true});
+  notifCount++;
+  const nb = document.getElementById('notif-count');
+  const nnb = document.getElementById('nav-notif-badge');
+  if(nb) nb.textContent = notifCount;
+  if(nnb) nnb.textContent = notifCount;
+  renderNotifications();
+}
+
+function renderNotifications(){
+  const c = document.getElementById('notifs-list');
+  if(!c) return;
+  c.innerHTML = notifications.map(n=>`
+    <div class="notif-item ${n.unread?'unread':''}">
+      <div class="notif-icon" style="background:${n.unread?'rgba(74,222,128,0.08)':'var(--surface)'};">${n.icon}</div>
+      <div class="notif-body">
+        <div class="notif-text">${n.text}</div>
+        <div class="notif-earn">${n.earn}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────
+//  LEADERBOARD
+// ─────────────────────────────────────
+function renderLeaderboard(){
+  const c = document.getElementById('leaderboard-list');
+  if(!c) return;
+  const rankClasses=['gold','silver','bronze','','',''];
+  const rankSymbols=['🥇','🥈','🥉','4','5','6'];
+  c.innerHTML = USERS.map((u,i)=>`
+    <div class="lb-item">
+      <div class="lb-rank ${rankClasses[i]}">${rankSymbols[i]}</div>
+      <div class="lb-avatar" style="background:${u.color};">${u.avatar}</div>
+      <div class="lb-info">
+        <div class="lb-name">${u.name}</div>
+        <div class="lb-earned">${u.earned}</div>
+      </div>
+      ${i<3?`<div class="lb-badge">#${i+1}</div>`:''}
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────
+//  SUGGESTED USERS
+// ─────────────────────────────────────
+function renderSuggested(){
+  const c = document.getElementById('suggested-users');
+  if(!c) return;
+  c.innerHTML = USERS.slice(0,4).map(u=>`
+    <div class="su-item">
+      <div class="su-avatar" style="background:${u.color};">${u.avatar}</div>
+      <div class="su-info">
+        <div class="su-name">${u.name}</div>
+        <div class="su-handle">${u.handle}</div>
+      </div>
+      <button class="su-follow" onclick="follow(this)">FOLLOW</button>
+    </div>`).join('');
+}
+
+function follow(btn){
+  if(btn.classList.contains('following')){
+    btn.classList.remove('following'); btn.textContent='FOLLOW';
+  } else {
+    btn.classList.add('following'); btn.textContent='✓ FOLLOWING';
+    showToast('+50 VT · Referral bonus!','gold');
+    earn(50, window.innerWidth-150, 90);
+  }
+}
+
+// ─────────────────────────────────────
+//  EXPLORE GRID
+// ─────────────────────────────────────
+function renderExplore(){
+  const c = document.getElementById('explore-grid');
+  if(!c) return;
+  const topics = [
+    {tag:'#VuraToken',count:'4,820 posts',color:'linear-gradient(135deg,#3a1a00,#f5c842)',icon:'🪙'},
+    {tag:'#PSL2026',count:'3,240 posts',color:'linear-gradient(135deg,#083344,#06b6d4)',icon:'🏏'},
+    {tag:'#VuraPlay',count:'2,100 posts',color:'linear-gradient(135deg,#1a1a3a,#7c3aed)',icon:'🎮'},
+    {tag:'#VuraMining',count:'1,840 posts',color:'linear-gradient(135deg,#1a3a00,#22c55e)',icon:'⛏️'},
+    {tag:'#VuraNFT',count:'980 posts',color:'linear-gradient(135deg,#4a0a20,#ec4899)',icon:'🖼️'},
+    {tag:'#Web3Social',count:'740 posts',color:'linear-gradient(135deg,#1a3a5c,#2563eb)',icon:'🌐'},
+  ];
+  c.innerHTML = topics.map(t=>`
+    <div style="background:${t.color};border-radius:16px;padding:24px;cursor:pointer;transition:transform 0.2s;border:1px solid rgba(255,255,255,0.08);" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'" onclick="showToast('Exploring '+this.querySelector('.ex-tag').textContent,'')">
+      <div style="font-size:36px;margin-bottom:10px;">${t.icon}</div>
+      <div class="ex-tag" style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:white;margin-bottom:4px;">${t.tag}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.6);">${t.count}</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────
+//  PROFILE GRID
+// ─────────────────────────────────────
+function renderProfileGrid(){
+  const c = document.getElementById('profile-posts-grid');
+  if(!c) return;
+  const myPosts = SEED_POSTS.filter(p=>p.user.name==='CryptoVura');
+  if(!myPosts.length){
+    c.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px;">No posts yet — post something and earn VT!</div>`;
+    return;
+  }
+  c.innerHTML = myPosts.map(p=>`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;" onclick="showPage('feed')">
+      <div style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;">${p.text.replace(/<[^>]+>/g,'').substring(0,80)}...</div>
+      <div style="display:flex;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);">
+        <span>❤️ ${p.likes}</span><span>💬 ${p.comments.length}</span><span>🔁 ${p.shares}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────
+//  WITHDRAW
+// ─────────────────────────────────────
+function openWithdraw(){
+  document.getElementById('wd-avail').textContent = Math.round(vtBalance).toLocaleString()+' VT';
+  document.getElementById('wd-usd').textContent = `≈ $${(vtBalance*0.01).toFixed(2)}`;
+  document.getElementById('withdraw-modal').classList.add('open');
+}
+function calcWd(){
+  const amt = parseFloat(document.getElementById('wd-amount').value)||0;
+  document.getElementById('wd-receive').textContent = `You receive: ${Math.max(0,amt-2).toLocaleString()} VT`;
+}
+function confirmWithdraw(){
+  const addr = document.getElementById('wd-address').value.trim();
+  const amt = parseFloat(document.getElementById('wd-amount').value)||0;
+  if(!addr){ showToast('Enter your wallet address','red'); return; }
+  if(amt<100){ showToast('Minimum withdrawal is 100 VT','red'); return; }
+  if(amt>vtBalance){ showToast('Insufficient balance','red'); return; }
+  vtBalance -= amt;
+  updateBalanceDisplays();
+  closeModal('withdraw-modal');
+  showToast(`✓ ${amt.toLocaleString()} VT sent to ${addr.substring(0,10)}...`,'gold');
+}
+
+// ─────────────────────────────────────
+//  NAV / PAGE
+// ─────────────────────────────────────
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById(id);
+  if(pg){ pg.classList.add('active'); }
+  if(id==='notifications'){ notifCount=0; ['notif-count','nav-notif-badge'].forEach(x=>{const e=document.getElementById(x);if(e)e.textContent='0';}); renderNotifications(); }
+  if(id==='explore') renderExplore();
+  if(id==='profile') renderProfileGrid();
+  window.scrollTo(0,0);
+}
+function setNavActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+function setFeedTab(el, name){
+  document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(name==='trending'){
+    const sorted=[...SEED_POSTS].sort((a,b)=>b.likes-a.likes);
+    renderPosts(sorted);
+  } else if(name==='vura'){
+    const vura=SEED_POSTS.filter(p=>p.text.includes('Vura')||p.text.includes('VT'));
+    renderPosts(vura);
+  } else {
+    renderPosts(SEED_POSTS);
+  }
+}
+
+// ─────────────────────────────────────
+//  UTILITIES
+// ─────────────────────────────────────
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+function showToast(msg, type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type||'');
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ─────────────────────────────────────
+//  AUTO ACTIVITY SIMULATOR
+// ─────────────────────────────────────
+const activityMsgs = [
+  ()=>`🔁 <strong>${USERS[Math.floor(Math.random()*6)].name}</strong> shared your post — <span style="color:var(--gold)">+1 VT</span>`,
+  ()=>`❤️ <strong>${USERS[Math.floor(Math.random()*6)].name}</strong> liked your post — <span style="color:var(--gold)">+0.5 VT</span>`,
+  ()=>`💬 <strong>${USERS[Math.floor(Math.random()*6)].name}</strong> commented — <span style="color:var(--gold)">+2 VT</span>`,
+  ()=>`👥 <strong>${USERS[Math.floor(Math.random()*6)].name}</strong> followed you — <span style="color:var(--gold)">+5 VT bonus</span>`,
+];
+let simInterval;
+function startSim(){
+  simInterval = setInterval(()=>{
+    const rand = Math.random();
+    let amt = 0.5;
+    if(rand<0.3) amt=2;
+    else if(rand<0.6) amt=1;
+    vtBalance += amt;
+    updateBalanceDisplays();
+  }, 8000);
+}
+
+// ─────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────
+renderPosts(SEED_POSTS);
+renderLeaderboard();
+renderSuggested();
+renderNotifications();
+startSim();
+</script>
+</body>
+</html>
